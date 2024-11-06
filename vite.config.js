@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://localhost:6000',
+        target: 'https://hollarkiddies-backend.onrender.com',
         changeOrigin: true,
       },
       '/images': {
-        target: 'http://localhost:6000',
+        target: 'https://hollarkiddies-backend.onrender.com',
         changeOrigin: true,
       },
     },
