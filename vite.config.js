@@ -8,11 +8,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://hollarkiddies-frontend.onrender.com',
+        target: 'https://hollarkiddies-backend.onrender.com',
         changeOrigin: true,
       },
       '/images': {
-        target: 'https://hollarkiddies-frontend.onrender.com',
+        target: 'https://hollarkiddies-backend.onrender.com',
         changeOrigin: true,
       },
     },
