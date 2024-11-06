@@ -10,6 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'https://hollarkiddies-backend.onrender.com',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/images': {
         target: 'https://hollarkiddies-backend.onrender.com',
