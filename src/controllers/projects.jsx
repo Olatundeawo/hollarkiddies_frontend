@@ -13,7 +13,9 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get("https://hollarkiddies-backend.onrender.com/api/products")
+      .get("https://hollarkiddies-backend.onrender.com/api/products", {
+          withCredentials: true
+        })
       .then((response) => {
         setProducts(response.data);
         setLoading(false);
