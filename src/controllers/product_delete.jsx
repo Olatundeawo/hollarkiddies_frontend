@@ -10,7 +10,7 @@ const ProductDelete = () => {
 
         try {
           const token = localStorage.getItem('token');
-            await axios.delete(`/api/product/${id}/delete`, {
+            await axios.delete(`https://hollarkiddies-backend.onrender.com/api/product/${id}/delete`, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",

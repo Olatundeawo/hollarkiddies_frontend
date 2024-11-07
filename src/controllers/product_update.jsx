@@ -22,7 +22,7 @@ const ProductUpdate = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/api/product/${id}`);
+        const response = await axios.get(`https://hollarkiddies-backend.onrender.com/api/product/${id}`);
         setProduct(response.data);
         let image = response.data[0].images
         setImage(image)
@@ -51,7 +51,7 @@ const ProductUpdate = () => {
   
         try {
           const token = localStorage.getItem('token');
-          await axios.delete(`/api/product/${id}/image/${imageId}`, {
+          await axios.delete(`https://hollarkiddies-backend.onrender.com/api/product/${id}/image/${imageId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
@@ -110,7 +110,7 @@ const ProductUpdate = () => {
     // Update the product details and images
     try {
       let token = localStorage.getItem('token')
-      await axios.put(`/api/product/${id}/update`, formData, {
+      await axios.put(`https://hollarkiddies-backend.onrender.com/api/product/${id}/update`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -192,7 +192,7 @@ const ProductUpdate = () => {
                 >
                   <img
                     key={index}
-                    src={`/images/${image.image_path}`}
+                    src={`https://hollarkiddies-backend.onrender.com/images/${image.image_path}`}
                     alt={`Product Image ${index + 1}`}
                     className="w-32 h-32 object-cover"
                     />

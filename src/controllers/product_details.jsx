@@ -28,7 +28,7 @@ const ProductDetail = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/product/${id}`).then((response) => {
+    axios.get(`https://hollarkiddies-backend.onrender.com/api/product/${id}`).then((response) => {
       const productData = response.data;
       setProducts(productData);
       console.log(response.data)
@@ -53,7 +53,7 @@ const ProductDetail = () => {
             <div className="mb-4">
               {activeImage ? (
                 <img
-                  src={`/images/${activeImage}`}
+                  src={`https://hollarkiddies-backend.onrender.com/images/${activeImage}`}
                   alt="Main Product"
                   className="w-full h-auto object-cover rounded-lg"
                 />
@@ -68,7 +68,7 @@ const ProductDetail = () => {
                 ? product.images.map((image, index) => (
                     <img
                       key={index}
-                      src={`/images/${image.image_path}`}
+                      src={`https://hollarkiddies-backend.onrender.com/images/${image.image_path}`}
                       alt={`Thumbnail ${index + 1}`}
                       className={`w-20 h-20 object-cover border border-gray-300 rounded-lg cursor-pointer ${activeImage === image ? 'border-blue-500' : ''}`} // Add border to the active thumbnail
                       onClick={() => setActiveImage(image.image_path)} // Set the clicked thumbnail as the active image

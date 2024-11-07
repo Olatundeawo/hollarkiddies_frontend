@@ -27,7 +27,7 @@ const UserCreate = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/user/create', data, {
+            const response = await axios.post('https://hollarkiddies-backend.onrender.com/api/user/create', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'

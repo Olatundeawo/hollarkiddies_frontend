@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +37,7 @@ function ProductCreate() {
 
         try {
           const token = localStorage.getItem('token');
-            const response = await axios.post('/api/product/create', data, {
+            const response = await axios.post('https://hollarkiddies-backend.onrender.com/api/product/create', data, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

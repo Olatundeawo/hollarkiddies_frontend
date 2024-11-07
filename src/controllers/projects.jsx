@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
@@ -13,7 +13,7 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get("/api/products")
+      .get("https://hollarkiddies-backend.onrender.com/api/products")
       .then((response) => {
         setProducts(response.data);
         setLoading(false);
@@ -72,7 +72,7 @@ function Product() {
                   {/* Product Image */}
                   {product.images && product.images.length > 0 && (
                     <img
-                      src={`/images/${product.images[0]}`} // Assuming your images are stored in an 'uploads' folder
+                      src={`https://hollarkiddies-backend.onrender.com/images/${product.images[0]}`} // Assuming your images are stored in an 'uploads' folder
                       alt={product.name}
                       className="w-full h-48 object-cover"
                     />
