@@ -13,11 +13,13 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get("https://hollarkiddies-backend.onrender.com/api/products", {
-          withCredentials: true
-        })
+      .get("http://127.0.0.1:5000/api/products", {
+        withCredentials: true
+      })
       .then((response) => {
-        setProducts(response.data);
+        // Sort products by created_at in descending order to display the latest products first
+        const sortedProducts = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setProducts(sortedProducts);
         setLoading(false);
       })
       .catch((error) => {
@@ -36,6 +38,9 @@ function Product() {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   return (
     <div>
@@ -60,8 +65,9 @@ function Product() {
       {/* Product Grid */}
       <div className="container mx-auto p-4">
         {loading ? (
-          <TailSpin height="200" width="100" color="#4fa94d" />
-          
+          <div className="flex justify-center items-center h-64">
+            <TailSpin height="50" width="50" color="#4fa94d" />
+          </div>
         ) : (
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -72,18 +78,21 @@ function Product() {
                   onClick={() => handleProductClick(product.product_id)}
                 >
                   {/* Product Image */}
-                  {product.images && product.images.length > 0 && (
+                  {product.images && product.images.length > 0 ? (
                     <img
-                      src={`https://hollarkiddies-backend.onrender.com/images/${product.images[0]}`} // Assuming your images are stored in an 'uploads' folder
+                      src={product.images[0].secure_url}  
                       alt={product.name}
                       className="w-full h-48 object-cover"
                     />
+                  ) : (
+                    <div className="w-full h-48 flex items-center justify-center bg-gray-200">
+                      <span>No Image Available</span>
+                    </div>
                   )}
-
+                {console.log(product)}
                   <div className="p-4">
                     {/* Product Name */}
                     <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
-
                     {/* Product Price */}
                     <div className="mt-4">
                       <span className="text-lg font-bold text-green-500">₦{product.price}</span>
@@ -104,6 +113,24 @@ function Product() {
               >
                 Previous
               </button>
+
+              {/* Display page numbers */}
+              <div className="flex items-center space-x-2">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={`px-4 py-2 text-white rounded ${
+                      currentPage === index + 1
+                        ? "bg-blue-500 cursor-not-allowed"
+                        : "bg-blue-500 hover:bg-blue-600"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={indexOfLastProduct >= products.length}
@@ -116,8 +143,10 @@ function Product() {
                 Next
               </button>
             </div>
+
+            {/* Pagination info */}
             <div className="text-center mt-4 text-gray-500">
-              Page {currentPage} of {Math.ceil(products.length / productsPerPage)}
+              Page {currentPage} of {totalPages}
             </div>
           </div>
         )}

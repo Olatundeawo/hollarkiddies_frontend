@@ -192,7 +192,7 @@ const ProductUpdate = () => {
                 >
                   <img
                     key={index}
-                    src={`https://hollarkiddies-backend.onrender.com/images/${image.image_path}`}
+                    src={image.image_path}
                     alt={`Product Image ${index + 1}`}
                     className="w-32 h-32 object-cover"
                     />
