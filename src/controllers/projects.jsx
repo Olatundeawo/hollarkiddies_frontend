@@ -13,7 +13,7 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/api/products", {
+      .get("https://hollarkiddies-backend.onrender.com/api/products", {
         withCredentials: true
       })
       .then((response) => {
