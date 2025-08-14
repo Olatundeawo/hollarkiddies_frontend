@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFaceKissWinkHeart } from "@fortawesome/free-solid-svg-icons";
 
 function Product() {
   const [products, setProducts] = useState([]);
@@ -14,11 +16,13 @@ function Product() {
   useEffect(() => {
     axios
       .get("https://hollarkiddies-backend.onrender.com/api/products", {
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         // Sort products by created_at in descending order to display the latest products first
-        const sortedProducts = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        const sortedProducts = response.data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
         setProducts(sortedProducts);
         setLoading(false);
       })
@@ -34,7 +38,10 @@ function Product() {
   // Get current products for pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -56,8 +63,12 @@ function Product() {
           src="https://trackdudi-uploads.s3.eu-west-3.amazonaws.com/uploads/store-banners/1707226682887-03.jpg"
         />
         <div className="absolute top-0 w-full flex justify-center items-center h-full">
-          <h3 className="text-base md:text-[3.125rem] font-semibold text-center text-[#FFF] max-w-7xl leading-6 md:leading-[56px]">
+          <h3 className="font-fjalla text-base md:text-[3.125rem] font-semibold text-center text-[#FFF] max-w-7xl leading-6 md:leading-[56px]">
             Welcome To HollartKiddies
+            <FontAwesomeIcon
+              icon={faFaceKissWinkHeart}
+              className="text-white-500 text-2xl"
+            />
           </h3>
         </div>
       </div>
@@ -80,7 +91,7 @@ function Product() {
                   {/* Product Image */}
                   {product.images && product.images.length > 0 ? (
                     <img
-                      src={product.images[0].secure_url}  
+                      src={product.images[0].secure_url}
                       alt={product.name}
                       className="w-full h-48 object-cover"
                     />
@@ -89,13 +100,17 @@ function Product() {
                       <span>No Image Available</span>
                     </div>
                   )}
-                {console.log(product)}
+
                   <div className="p-4">
                     {/* Product Name */}
-                    <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      {product.name}
+                    </h2>
                     {/* Product Price */}
                     <div className="mt-4">
-                      <span className="text-lg font-bold text-green-500">₦{product.price}</span>
+                      <span className="text-lg font-bold text-green-500">
+                        ₦{product.price}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -108,7 +123,9 @@ function Product() {
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`px-4 py-2 mx-1 text-white rounded ${
-                  currentPage === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+                  currentPage === 1
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600"
                 }`}
               >
                 Previous
