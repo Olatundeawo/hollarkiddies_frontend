@@ -10,6 +10,7 @@ const ProductDetail = () => {
   const [activeImage, setActiveImage] = useState(null); // State to store the active image
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isdisabled, setIsDisabled] = useState(true);
 
   const handleClick = (id) => {
     navigate(`/product/${id}/update`);
@@ -128,10 +129,12 @@ const ProductDetail = () => {
 
             {/* Quantity Selector & Buttons */}
             <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">
+              <button
+                className={`bg-gray-400 cursor-not-allowed text-white px-6 py-3 rounded-md hover:bg-gray-200`}
+              >
                 Purchase Now
               </button>
-              <button className="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700">
+              <button className="bg-gray-400 text-white cursor-not-allowed px-6 py-3 rounded-md hover:bg-gray-200">
                 Add to Cart
               </button>
               {isAuthenticated && (
