@@ -44,7 +44,14 @@ function Product() {
   );
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Make it scroll to the top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Calculate total pages
   const totalPages = Math.ceil(products.length / productsPerPage);
