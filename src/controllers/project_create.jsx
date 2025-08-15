@@ -1,59 +1,73 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
 
 function ProductCreate() {
-    const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        price: ''
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+  });
+  const [images, setImages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
-    const [images, setImages] = useState([]);
-    const navigate = useNavigate();
+  };
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleImageChange = (e) => {
+    setImages(e.target.files);
+  };
 
-    const handleImageChange = (e) => {
-        setImages(e.target.files);
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    if (isSubmitting) return; // Prevent double submissions
+    setIsSubmitting(true);
 
-        const data = new FormData();
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("description", formData.description);
+    data.append("price", formData.price);
 
-        data.append('name', formData.name);
-        data.append('description', formData.description);
-        data.append('price', formData.price);
-        
-        for (let i =0; i < images.length; i++) {
-            data.append('images', images[i]);
+    for (let i = 0; i < images.length; i++) {
+      data.append("images", images[i]);
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "https://hollarkiddies-backend.onrender.com/api/product/create",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
+      );
 
-        try {
-          const token = localStorage.getItem('token');
-            const response = await axios.post('https://hollarkiddies-backend.onrender.com/api/product/create', data, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log('Response:', response.data);
-            alert('Product Created successfully!');
-            navigate('/')
-        } catch(err) {
-            console.error('Error:', err);
-            alert('Failed to create product');
-        }
-    };
-    
-    return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
+      console.log("Response:", response.data);
+      alert("Product Created successfully!");
+      navigate("/");
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Failed to create product");
+    } finally {
+      setIsSubmitting(false); // Re-enable button after completion
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg"
+    >
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2">Name</label>
         <input
@@ -67,7 +81,9 @@ function ProductCreate() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2">Description</label>
+        <label className="block text-gray-700 font-bold mb-2">
+          Description
+        </label>
         <textarea
           name="description"
           value={formData.description}
@@ -102,14 +118,30 @@ function ProductCreate() {
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+        disabled={isSubmitting}
+        className={`flex items-center justify-center px-4 py-2 text-white rounded ${
+          isSubmitting
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
+        }`}
       >
-        Create Product
+        {isSubmitting ? (
+          <>
+            <TailSpin
+              height="20"
+              width="20"
+              color="#ffffff"
+              ariaLabel="loading"
+              visible={true}
+            />
+            <span className="ml-2">Creating...</span>
+          </>
+        ) : (
+          "Create Product"
+        )}
       </button>
-</form>
-
-    )
+    </form>
+  );
 }
-
 
 export default ProductCreate;
